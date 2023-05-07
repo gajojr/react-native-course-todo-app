@@ -55,6 +55,11 @@ export default function App() {
 								name='delete'
 								size={24}
 								color='red'
+								onPress={() => {
+									setTodos((prevTodos) =>
+										prevTodos.filter((todo) => todo.id !== item.id)
+									);
+								}}
 							/>
 						</View>
 					</View>
