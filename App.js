@@ -9,6 +9,7 @@ import {
 	TextInput,
 	Button,
 } from 'react-native';
+import { StatusBar } from 'react-native';
 
 export default function App() {
 	const [inputText, setInputText] = useState('');
@@ -66,6 +67,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
 	container: {
+		marginTop: StatusBar.currentHeight,
 		flex: 1,
 		backgroundColor: '#fff',
 		alignItems: 'center',
