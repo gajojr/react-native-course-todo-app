@@ -14,6 +14,8 @@ import { StatusBar } from 'react-native';
 export default function App() {
 	const [inputText, setInputText] = useState('');
 	const [todos, setTodos] = useState([]);
+	const [itemInEdit, setItemInEdit] = useState(null);
+	const [editedText, setEditedText] = useState('');
 
 	const addTodo = () => {
 		if (inputText.trim()) {
@@ -43,13 +45,42 @@ export default function App() {
 				data={todos}
 				renderItem={({ item }) => (
 					<View style={styles.itemListed}>
-						<Text style={styles.itemName}>{item.name}</Text>
-						<View style={styles.actions}>
-							<AntDesign
-								name='edit'
-								size={24}
-								color='green'
+						{itemInEdit === item.id ? (
+							<TextInput
+								value={editedText}
+								onChangeText={setEditedText}
+								style={{ ...styles.input, width: '70%' }}
+								placeholder='Edit todo'
 							/>
+						) : (
+							<Text style={styles.itemName}>{item.name}</Text>
+						)}
+						<View style={styles.actions}>
+							{itemInEdit === item.id ? (
+								<AntDesign
+									name='check'
+									size={24}
+									color='green'
+									onPress={() => {
+										setTodos((prevTodos) =>
+											prevTodos.map((todo) =>
+												todo.id === item.id
+													? { ...todo, name: editedText }
+													: todo
+											)
+										);
+										setItemInEdit(null);
+										setEditedText('');
+									}}
+								/>
+							) : (
+								<AntDesign
+									name='edit'
+									size={24}
+									color='green'
+									onPress={() => setItemInEdit(item.id)}
+								/>
+							)}
 							<AntDesign
 								style={{ marginLeft: 20 }}
 								name='delete'
