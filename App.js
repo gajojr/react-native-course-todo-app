@@ -1,27 +1,14 @@
 import { useState } from 'react';
+import { AntDesign } from '@expo/vector-icons';
 import {
 	StyleSheet,
 	Text,
 	FlatList,
 	SafeAreaView,
+	View,
 	TextInput,
 	Button,
 } from 'react-native';
-
-const mockData = [
-	{
-		id: 1,
-		name: 'Buy groceries',
-	},
-	{
-		id: 2,
-		name: 'Finish react native course',
-	},
-	{
-		id: 3,
-		name: 'Read a book',
-	},
-];
 
 export default function App() {
 	const [inputText, setInputText] = useState('');
@@ -33,6 +20,8 @@ export default function App() {
 				...prevTodos,
 				{ id: Date.now().toString(), name: inputText },
 			]);
+
+			setInputText('');
 		}
 	};
 
@@ -52,7 +41,22 @@ export default function App() {
 			<FlatList
 				data={todos}
 				renderItem={({ item }) => (
-					<Text style={styles.itemListed}>{item.name}</Text>
+					<View style={styles.itemListed}>
+						<Text style={styles.itemName}>{item.name}</Text>
+						<View style={styles.actions}>
+							<AntDesign
+								name='edit'
+								size={24}
+								color='green'
+							/>
+							<AntDesign
+								style={{ marginLeft: 20 }}
+								name='delete'
+								size={24}
+								color='red'
+							/>
+						</View>
+					</View>
 				)}
 				keyExtractor={(item) => item.id}
 			/>
@@ -72,11 +76,21 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	input: {
-		width: '100%',
+		width: '90%',
 		borderColor: 'gray',
 		borderWidth: 1,
 	},
 	itemListed: {
+		width: '90%',
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+	},
+	actions: {
+		display: 'flex',
+		flexDirection: 'row',
+	},
+	itemName: {
 		fontSize: 18,
 	},
 });
